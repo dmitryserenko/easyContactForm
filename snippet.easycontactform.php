@@ -52,23 +52,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
     $(\'#simpleсontactResult\').on(\'click\', \'.simpleсontact_button\', function() {
         var prefix = \'simpleсontact\';
         var token = \'' . md5($prefix) . '\';
-        
-        var simpleсontact_name = $(\'input[name="simpleсontact_name"]\').val();
-        if (simpleсontact_name.length < 3) {
-            $(\'input[name="simpleсontact_name"]\').addClass(\'is-invalid-input\');
-            $(\'input[name="simpleсontact_name"]\').parent().addClass(\'is-invalid-label\');
+    ');
+    foreach ($input_list as $name => $title) {
+        echo('
+        var ' . $prefix . '_' . $name . ' = $(\'input[name="' . $prefix . '_' . $name . '"]\').val();
+        if (' . $prefix . '_' . $name . '.length < 3) {
+            $(\'input[name="' . $prefix . '_' . $name . '"]\').addClass(\'is-invalid-input\');
+            $(\'input[name="' . $prefix . '_' . $name . '"]\').parent().addClass(\'is-invalid-label\');
         }
-        var simpleсontact_email = $(\'input[name="simpleсontact_email"]\').val();
-        if (simpleсontact_email.length < 3) {
-            $(\'input[name="simpleсontact_email"]\').addClass(\'is-invalid-input\');
-            $(\'input[name="simpleсontact_email"]\').parent().addClass(\'is-invalid-label\');
+        ');
+    }
+    foreach ($textarea_list as $name => $title) {
+        echo('
+        var ' . $prefix . '_' . $name . ' = $(\'textarea[name="' . $prefix . '_' . $name . '"]\').val();
+        if (' . $prefix . '_' . $name . '.length < 3) {
+            $(\'textarea[name="' . $prefix . '_' . $name . '"]\').addClass(\'is-invalid-input\');
+            $(\'textarea[name="' . $prefix . '_' . $name . '"]\').parent().addClass(\'is-invalid-label\');
         }
-        var simpleсontact_phone = $(\'input[name="simpleсontact_phone"]\').val();
-        if (simpleсontact_phone.length < 3) {
-            $(\'input[name="simpleсontact_phone"]\').addClass(\'is-invalid-input\');
-            $(\'input[name="simpleсontact_phone"]\').parent().addClass(\'is-invalid-label\');
-        }
-        var simpleсontact_text = $(\'textarea[name="simpleсontact_text"]\').val();
+        ');
+    }
+    echo('
         if ($(\'.is-invalid-input\').length === 0) {
             $(\'input\').attr(\'disabled\', true);
             $(\'textarea\').attr(\'disabled\', true);
@@ -84,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
                 });
         } else {$(\'#simpleсontactResult\').html(\'<input type="button" class="simpleсontact_button button" value="Отправить" disabled />\');}
     });
-    $(\'label\').on(\'keypress keyup change\', \'input\', function() {
+    $(\'label\').on(\'keypress keyup change\', \'input, textarea\', function() {
         if ($(this).val().length >= 5) {
             $(this).removeClass(\'is-invalid-input\');
             $(this).parent().removeClass(\'is-invalid-label\');
