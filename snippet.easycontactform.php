@@ -2,7 +2,7 @@
 /**
  * easyContactForm
  *
- * Simple ajax contact form snippet for MODX 2.x.
+ * Simple ajax contact form snippet for MODX Revolution 2.x.x
  *
  * @author Dmitry Serenko
  * @copyright Copyright 2021, Dmitry Serenko
@@ -17,6 +17,7 @@
  * success - [default=Your message has been successfully sent]
  * input - [default={"name":"Contact Person","email":"Email","phone":"Phone"}]
  * textarea - [default=]
+ * placeholder - Display title as placeholder [default=false]
  *
  */
 $input_list = isset($input) ? json_decode($input) : json_decode('{"name":"Contact Person","email":"Email","phone":"Phone"}');
@@ -30,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
     $subject = isset($subject) ? $subject : 'Feedback from the site ' . $_SERVER['HTTP_HOST'];
     $message = isset($headline) ? $headline . "\r\n\r\n" : 'You have received a new message from the site' . "\r\n\r\n";
     $success = isset($success) ? $success : 'Your message has been successfully sent';
+    $placeholder = isset($placeholder) && $placeholder == 'true' ? true : false;
     foreach ($input_list as $name => $title) {$message .= $title . ': ' . $_POST[$name] . "\r\n";}
     foreach ($textarea_list as $name => $title) {$message .= $title . ': ' . $_POST[$name] . "\r\n";}
     $message .= "\r\n" . '--' . "\r\n";
@@ -40,15 +42,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
 } else {
     $prefix = 'simpleсontact';
     foreach ($input_list as $name => $title) {
-        echo('<label>' . $title .'<input type="text" name="simpleсontact_' . $name . '"></label>');
+        if ($placeholder) {
+            echo('<label><input type="text" class="form-control" name="simpleсontact_' . $name . '" placeholder="' . $title .'"></label>');
+        } else {
+            echo('<label>' . $title .'<input type="text" class="form-control" name="simpleсontact_' . $name . '"></label>');
+        }
     }
     foreach ($textarea_list as $name => $title) {
-        echo('<label>' . $title . '<textarea name="simpleсontact_' . $name . '" rows="7"></textarea></label>');
+        if ($placeholder) {
+            echo('<label><textarea class="form-control" name="simpleсontact_' . $name . '" rows="6" placeholder="' . $title .'"></textarea></label>');
+        } else {
+            echo('<label>' . $title . '<textarea class="form-control" name="simpleсontact_' . $name . '" rows="6"></textarea></label>');
+        }
     }
     
     echo('<div id="simpleсontactResult"><input type="button" class="simpleсontact_button button" value="Отправить" /></div>');
     echo('
+    <style>
+    .form-control {display: block;width: 100%;padding: .5rem;border: 1px dashed #a0a0a0;box-shadow: none;}
+    .is-invalid-label {color: #dc3545;}
+    .is-invalid-input {border-color: #dc3545;}
+    </style>
+    ');
+    echo('
     <script>
+    window.onload = function() {
+        if (!window.jQuery) {alert(\'jQuery is not loaded. This library is needed for work the form\');}
+    }
     $(\'#simpleсontactResult\').on(\'click\', \'.simpleсontact_button\', function() {
         var prefix = \'simpleсontact\';
         var token = \'' . md5($prefix) . '\';
