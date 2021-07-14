@@ -7,6 +7,8 @@
  * @author Dmitry Serenko
  * @copyright Copyright 2021, Dmitry Serenko
  *
+ * https://github.com/dmitryserenko/easyContactForm
+ * 
  * OPTIONS
  *
  * to - Primary email address for sending mail [default=info@yourdomain.com]
