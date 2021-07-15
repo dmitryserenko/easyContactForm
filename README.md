@@ -14,7 +14,7 @@ Simple contact form snippet for MODX Revolution 2.x.x
     &headline=`Поступило новое сообщение с сайта [[++site_name]]`
     &success=`Ваше сообщение успешно отправлено`
     &input=`{"name":"Контактное лицо","email":"Email","phone":"Телефон"}`
-    &textarea=`{"text":"Сообщение","message":"Дополнительная информация"}`
+    &textarea=`{"text":"Сообщение"}`
 ]]
 ```
 
