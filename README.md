@@ -1,9 +1,22 @@
 # easyContactForm
 
-Simple ajax contact form snippet for MODX 2.x.
+Simple contact form snippet for MODX Revolution 2.x.x
 
 @author Dmitry Serenko
 @copyright Copyright 2021, Dmitry Serenko
+
+## Использование
+
+```shell
+[[!easyContactForm?
+    &subject=`Сообщение с сайта [[++site_name]]`
+    &to=`test@gmail.com`
+    &headline=`Поступило новое сообщение с сайта [[++site_name]]`
+    &success=`Ваше сообщение успешно отправлено`
+    &input=`{"name":"Контактное лицо","email":"Email","phone":"Телефон"}`
+    &textarea=`{"text":"Сообщение","message":"Дополнительная информация"}`
+]]
+```
 
 OPTIONS
 
