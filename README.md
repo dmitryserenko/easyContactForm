@@ -18,7 +18,7 @@ Simple contact form snippet for MODX Revolution 2.x.x
 ]]
 ```
 
-OPTIONS
+## Options
 
 * to - Primary email address for sending mail [default=info@yourdomain.com]
 * cc - Add carbon copy to header of the mail [default=]
