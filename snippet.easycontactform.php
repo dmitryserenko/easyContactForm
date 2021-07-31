@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
     echo('
     <style>
     .form-control {display: block;width: 100%;padding: .5rem;border: 1px dashed #a0a0a0;box-shadow: none;}
+    .form-control:disabled {opacity: .4;}
     .is-invalid-label {color: #dc3545;}
     .is-invalid-input {border-color: #dc3545;}
     </style>
