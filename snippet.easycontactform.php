@@ -17,13 +17,15 @@
  * subject - Subject of the mail [default=Feedback from the site yourdomain.com]
  * headline - Headline of the message [default=You have received a new message from the site]
  * success - [default=Your message has been successfully sent]
- * input - [default={"name":"Contact Person","email":"Email","phone":"Phone"}]
- * textarea - [default=]
+ * input - Input list of the form [default={"name":"Contact Person","email":"Email","phone":"Phone"}]
+ * textarea - Textarea list of the form [default=]
+ * button - Text of the submit button [default=Submit]
  * placeholder - Display title as placeholder [default=false]
  *
  */
 $input_list = isset($input) ? json_decode($input) : json_decode('{"name":"Contact Person","email":"Email","phone":"Phone"}');
 $textarea_list = isset($textarea) ? json_decode($textarea) : array();
+$button = isset($button) ? $button : 'Submit';
 $prefix = isset($prefix) ? $prefix : 'simpleсontact';
 $token = md5($prefix);
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['token'] === $token) {
@@ -59,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
         }
     }
     
-    echo('<div id="' . $prefix . 'Result"><input type="button" class="' . $prefix . '_button button" value="Отправить" /></div>');
+    echo('<div id="' . $prefix . 'Result"><input type="button" class="' . $prefix . '_button button" value="' . $button . '" /></div>');
     echo('
     <style>
     .form-control {display: block;width: 100%;padding: .5rem;border: 1px dashed #a0a0a0;box-shadow: none;}
@@ -110,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
                 .fail(function() {
                     $(\'#' . $prefix . 'Result\').html(\'Error\');
                 });
-        } else {$(\'#' . $prefix . 'Result\').html(\'<input type="button" class="' . $prefix . '_button button" value="Отправить" />\');}
+        } else {$(\'#' . $prefix . 'Result\').html(\'<input type="button" class="' . $prefix . '_button button" value="' . $button . '" />\');}
     });
     $(\'label\').on(\'keypress keyup change\', \'input, textarea\', function() {
         if ($(this).val().length >= 5) {
