@@ -34,13 +34,21 @@ success - [default=Your message has been successfully sent]
 ```shell
 &success=``
 ```
-input - [default={"name":"Contact person","email":"Email","phone":"Phone"}]
+input - Input list of the form [default={"name":"Contact person","email":"Email","phone":"Phone"}]
 ```shell
 &input=``
 ```
-textarea - [default={"text":"Your message"}]
+textarea - Textarea list of the form [default=]
 ```shell
-&textarea=``
+&textarea=`{"text":"Your message"}`
+```
+button - Text of the submit button [default=Submit]
+```shell
+&button=`Submit form`
+```
+placeholder - Display title as placeholder [default=false]
+```shell
+&placeholder=`true`
 ```
 
 
@@ -57,6 +65,7 @@ textarea - [default={"text":"Your message"}]
     &success=`Ваше сообщение успешно отправлено`
     &input=`{"name":"Контактное лицо","email":"Email","phone":"Телефон"}`
     &textarea=`{"text":"Сообщение"}`
+    &button=`Отправить`
 ]]
 ```
 
@@ -69,6 +78,7 @@ textarea - [default={"text":"Your message"}]
     &headline=`Поступил заказ обратного звонка с сайта [[++site_name]]`
     &success=`Заявка успешно отправлена, наш менеджер перезвонит вам в ближайшее время`
     &input=`{"name":"Контактное лицо","phone":"Телефон"}`
+    &button=`Заказать звонок`
 ]]
 ```
 
@@ -102,10 +112,17 @@ success - Текст после успешной отправки [default=Your 
 ```
 input - Список полей типа input (список полей в виде массива) [default={"name":"Contact person","email":"Email","phone":"Phone"}]
 ```shell
-&input=``
+&input=`{"name":"Контактное лицо","email":"Email","phone":"Телефон"}`
 ```
-textarea - Список полей типа input (список полей в виде массива) [default=]
+textarea - Список полей типа textarea (список полей в виде массива) [default=]
 ```shell
-&textarea=``
+&textarea=`{"text":"Сообщение"}`
 ```
-
+button - Текст кнопки отправить [default=Submit]
+```shell
+&button=`Отправить`
+```
+placeholder - Отображать title как placeholder [default=false]
+```shell
+&placeholder=`true`
+```
