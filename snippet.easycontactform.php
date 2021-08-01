@@ -24,7 +24,9 @@
  */
 $input_list = isset($input) ? json_decode($input) : json_decode('{"name":"Contact Person","email":"Email","phone":"Phone"}');
 $textarea_list = isset($textarea) ? json_decode($textarea) : array();
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['token'] === '4539a98cca0a2410551c04d1a0e3b753') {
+$prefix = isset($prefix) ? $prefix : 'simpleсontact';
+$token = md5($prefix);
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['token'] === $token) {
     $headers = 'Content-Type: text/plain; charset=utf-8' . "\r\n";
     $headers .= isset($_POST['email']) ? 'Reply-To: ' . $_POST['email'] . "\r\n" : '';
     $to = isset($to) ? $to : 'info@' . $_SERVER['HTTP_HOST'];
@@ -40,25 +42,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
     $message .= 'The message was sent from ' . $_SERVER['HTTP_HOST'] . "\r\n";
     $message .= 'Sender IP ' . $_SERVER['REMOTE_ADDR'] . "\r\n";
     mail($to, $subject, $message, $headers);
-    echo ('<div id="simpleсontactResult">' . $success . '<div>');
+    echo ('<div id="' . $prefix . 'Result">' . $success . '<div>');
 } else {
-    $prefix = 'simpleсontact';
     foreach ($input_list as $name => $title) {
         if ($placeholder) {
-            echo('<label><input type="text" class="form-control" name="simpleсontact_' . $name . '" placeholder="' . $title .'"></label>');
+            echo('<label><input type="text" class="form-control" name="' . $prefix . '_' . $name . '" placeholder="' . $title .'"></label>');
         } else {
-            echo('<label>' . $title .'<input type="text" class="form-control" name="simpleсontact_' . $name . '"></label>');
+            echo('<label>' . $title .'<input type="text" class="form-control" name="' . $prefix . '_' . $name . '"></label>');
         }
     }
     foreach ($textarea_list as $name => $title) {
         if ($placeholder) {
-            echo('<label><textarea class="form-control" name="simpleсontact_' . $name . '" rows="6" placeholder="' . $title .'"></textarea></label>');
+            echo('<label><textarea class="form-control" name="' . $prefix . '_' . $name . '" rows="6" placeholder="' . $title .'"></textarea></label>');
         } else {
-            echo('<label>' . $title . '<textarea class="form-control" name="simpleсontact_' . $name . '" rows="6"></textarea></label>');
+            echo('<label>' . $title . '<textarea class="form-control" name="' . $prefix . '_' . $name . '" rows="6"></textarea></label>');
         }
     }
     
-    echo('<div id="simpleсontactResult"><input type="button" class="simpleсontact_button button" value="Отправить" /></div>');
+    echo('<div id="' . $prefix . 'Result"><input type="button" class="' . $prefix . '_button button" value="Отправить" /></div>');
     echo('
     <style>
     .form-control {display: block;width: 100%;padding: .5rem;border: 1px dashed #a0a0a0;box-shadow: none;}
@@ -72,9 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
     window.onload = function() {
         if (!window.jQuery) {alert(\'jQuery is not loaded. This library is needed for work the form\');}
     }
-    $(\'#simpleсontactResult\').on(\'click\', \'.simpleсontact_button\', function() {
-        var prefix = \'simpleсontact\';
-        var token = \'' . md5($prefix) . '\';
+    $(\'#' . $prefix . 'Result\').on(\'click\', \'.' . $prefix . '_button\', function() {
+        var prefix = \'' . $prefix . '\';
+        var token = \'' . $token . '\';
     ');
     foreach ($input_list as $name => $title) {
         echo('
@@ -94,25 +95,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
         }
         ');
     }
+    $post_line = '';
+    foreach ($input_list as $name => $title) {$post_line .= ', ' . $name . ': ' . $prefix . '_' . $name;}
+    foreach ($textarea_list as $name => $title) {$post_line .= ', ' . $name . ': ' . $prefix . '_' . $name;}
     echo('
         if ($(\'.is-invalid-input\').length === 0) {
             $(\'input\').attr(\'disabled\', true);
             $(\'textarea\').attr(\'disabled\', true);
-            $.post(window.location + \'?simpleсontact=ajax\', {token: \'4539a98cca0a2410551c04d1a0e3b753\', name: simpleсontact_name, email: simpleсontact_email, phone: simpleсontact_phone, text: simpleсontact_text})
+            $.post(window.location, {token: \'' . $token . '\'' . $post_line . '})
                 .done(function(resp) {
-                    var result = $(resp).find(\'#simpleсontactResult\').html();
-                    $(\'#simpleсontactResult\').html(result);
+                    var result = $(resp).find(\'#' . $prefix . 'Result\').html();
+                    $(\'#' . $prefix . 'Result\').html(result);
                 })
                 .fail(function() {
-                    $(\'#simpleсontactResult\').html(\'Error\');
+                    $(\'#' . $prefix . 'Result\').html(\'Error\');
                 });
-        } else {$(\'#simpleсontactResult\').html(\'<input type="button" class="simpleсontact_button button" value="Отправить" disabled />\');}
+        } else {$(\'#' . $prefix . 'Result\').html(\'<input type="button" class="' . $prefix . '_button button" value="Отправить" />\');}
     });
     $(\'label\').on(\'keypress keyup change\', \'input, textarea\', function() {
         if ($(this).val().length >= 5) {
             $(this).removeClass(\'is-invalid-input\');
             $(this).parent().removeClass(\'is-invalid-label\');
-            $(\'input\').attr(\'disabled\', false);
         }
     });
     </script>');
