@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
     }
     $(\'#' . $prefix . 'Result\').on(\'click\', \'.' . $prefix . '_button\', function() {
         var prefix = \'' . $prefix . '\';
-        var token = \'' . $token . '\';
+        var ' . $prefix . '_token = \'' . $token . '\';
     ');
     foreach ($input_list as $name => $title) {
         echo('
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
         if ($(\'.is-invalid-input\').length === 0) {
             $(\'input\').attr(\'disabled\', true);
             $(\'textarea\').attr(\'disabled\', true);
-            $.post(window.location, {token: \'' . $token . '\'' . $post_line . '})
+            $.post(window.location, {token: ' . $prefix . '_token' . $post_line . '})
                 .done(function(resp) {
                     var result = $(resp).find(\'#' . $prefix . 'Result\').html();
                     $(\'#' . $prefix . 'Result\').html(result);
