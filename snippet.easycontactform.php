@@ -1,11 +1,12 @@
 <?php
 /**
- * easyContactForm
+ * @name easyContactForm
  *
  * Simple ajax contact form snippet for MODX Revolution 2.x.x
  *
- * @author Dmitry Serenko
+ * @author Dmitry Serenko <dmitry@serenko.ru>
  * @copyright Copyright 2021, Dmitry Serenko
+ * @license MIT
  *
  * https://github.com/dmitryserenko/easyContactForm
  * 
@@ -61,9 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
         }
     }
     
-    echo('<div id="' . $prefix . 'Result"><input type="button" class="' . $prefix . '_button button" value="' . $button . '" /></div>');
+    echo('<div id="' . $prefix . 'Result"><input type="button" class="' . $prefix . '_button button btn btn-primary" value="' . $button . '" /></div>');
     echo('
     <style>
+    label {display: block;}
     .form-control {display: block;width: 100%;padding: .5rem;border: 1px dashed #a0a0a0;box-shadow: none;}
     .form-control:disabled {opacity: .4;}
     .is-invalid-label {color: #dc3545;}
@@ -112,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['token']) && $_POST['to
                 .fail(function() {
                     $(\'#' . $prefix . 'Result\').html(\'Error\');
                 });
-        } else {$(\'#' . $prefix . 'Result\').html(\'<input type="button" class="' . $prefix . '_button button" value="' . $button . '" />\');}
+        } else {$(\'#' . $prefix . 'Result\').html(\'<input type="button" class="' . $prefix . '_button button btn btn-primary" value="' . $button . '" />\');}
     });
     $(\'label\').on(\'keypress keyup change\', \'input, textarea\', function() {
         if ($(this).val().length >= 5) {
